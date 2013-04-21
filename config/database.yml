@@ -6,7 +6,6 @@
 development:
   adapter: postgresql
   host: localhost
-  username: user
   database: sample-app-dev
 
 # Warning: The database defined as "test" will be erased and
@@ -15,10 +14,9 @@ development:
 test:
   adapter: postgresql
   host: localhost
-  username: user
   database: sample-app-test
 
-production:
+#production:
 # Heroku should automatically generate database.yml
 # and set this upon deployment
 #  adapter: postgresql
