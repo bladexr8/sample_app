@@ -1,5 +1,14 @@
 SampleApp::Application.routes.draw do
-  get "users/new"
+  
+# set up routes to user related pages
+# /users/index        users_path
+# /users/show         user_path
+# /users/new          new_user-path
+# /users/create       users_path
+# /users/edit         edit_user_path
+# /users/update       user_path
+# /users/destroy      user_path
+resources :users
 
 #  get "static_pages/home"
 root to: 'static_pages#home'
