@@ -9,6 +9,9 @@ SampleApp::Application.routes.draw do
 # /users/update       user_path
 # /users/destroy      user_path
 resources :users
+resources :sessions, only: [:new, :create, :destroy]
+match '/signin', to: 'sessions#new'
+match '/signout', to: 'sessions#destroy', via: :delete
 
 #  get "static_pages/home"
 root to: 'static_pages#home'
