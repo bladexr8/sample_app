@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  # NEVER add "admin" attribute to this list!
   attr_accessible :email, :name, :password, :password_confirmation
   
   # Rails built in method to require presence of a password,
