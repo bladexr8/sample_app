@@ -13,6 +13,9 @@ resources :sessions, only: [:new, :create, :destroy]
 match '/signin', to: 'sessions#new'
 match '/signout', to: 'sessions#destroy', via: :delete
 
+# microposts routes
+resources :microposts, only: [:create, :destroy]
+
 #  get "static_pages/home"
 root to: 'static_pages#home'
 

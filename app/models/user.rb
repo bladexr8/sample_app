@@ -8,6 +8,9 @@ class User < ActiveRecord::Base
   # to authenticate users
   has_secure_password
   
+  # user can have one or more microposts
+  has_many :microposts, dependent: :destroy
+  
   #ensure email uniqueness by converting email address to lower case
   # using before_save callback
   before_save { |user| user.email = email.downcase }
@@ -20,6 +23,12 @@ class User < ActiveRecord::Base
               
   validates :password, presence: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true
+  
+  def feed
+    # preliminary information
+    # escape parameter to prevent SQL injection attack
+    Micropost.where("user_id = ?", id)
+  end
   
   private
   
