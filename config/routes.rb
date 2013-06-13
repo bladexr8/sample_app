@@ -8,13 +8,20 @@ SampleApp::Application.routes.draw do
 # /users/edit         edit_user_path
 # /users/update       user_path
 # /users/destroy      user_path
-resources :users
+resources :users do
+  member do
+    get :following, :followers
+  end
+end
+
 resources :sessions, only: [:new, :create, :destroy]
+
 match '/signin', to: 'sessions#new'
 match '/signout', to: 'sessions#destroy', via: :delete
 
 # microposts routes
 resources :microposts, only: [:create, :destroy]
+resources :relationships, only: [:create, :destroy]
 
 #  get "static_pages/home"
 root to: 'static_pages#home'

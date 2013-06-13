@@ -11,6 +11,14 @@ class User < ActiveRecord::Base
   # user can have one or more microposts
   has_many :microposts, dependent: :destroy
   
+  # relationships to allow user to follow other users
+  has_many :relationships, foreign_key: "follower_id", dependent: :destroy
+  has_many :followed_users, through: :relationships, source: :followed
+  has_many :reverse_relationships, foreign_key: "followed_id",
+                                    class_name: "Relationship",
+                                    dependent: :destroy
+  has_many :followers, through: :reverse_relationships, source: :follower
+  
   #ensure email uniqueness by converting email address to lower case
   # using before_save callback
   before_save { |user| user.email = email.downcase }
@@ -28,6 +36,22 @@ class User < ActiveRecord::Base
     # preliminary information
     # escape parameter to prevent SQL injection attack
     Micropost.where("user_id = ?", id)
+  end
+  
+  def following?(other_user)
+    relationships.find_by_followed_id(other_user.id)
+  end
+  
+  def follow!(other_user)
+    relationships.create!(followed_id: other_user.id)
+  end
+  
+  def unfollow!(other_user)
+    relationships.find_by_followed_id(other_user.id).destroy
+  end
+  
+  def feed
+    Micropost.from_users_followed_by(self)
   end
   
   private
